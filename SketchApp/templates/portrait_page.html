@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+li{
+        padding:6px;
+        }
+ul{
+        margin-left:500px;
+        margin-top:15px
+        }
+    </style>
+<script>
+    const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+const slider = document.getElementById('slider');
+const switchText = document.getElementById('switchText');
+
+slider.addEventListener('mousedown', startDrawing);
+slider.addEventListener('touchstart', startDrawing);
+
+function startDrawing() {
+  document.addEventListener('mousemove', drawText);
+  document.addEventListener('touchmove', drawText);
+  document.addEventListener('mouseup', stopDrawing);
+  document.addEventListener('touchend', stopDrawing);
+}
+
+function drawText(e) {
+  const x = e.clientX || e.touches[0].clientX;
+  const y = e.clientY || e.touches[0].clientY;
+  const rect = canvas.getBoundingClientRect();
+  const offsetX = x - rect.left;
+  const offsetY = y - rect.top;
+
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.font = '12px Arial';
+  ctx.fillText('Text', offsetX - 10, offsetY + 5);
+}
+
+function stopDrawing() {
+  document.removeEventListener('mousemove', drawText);
+  document.removeEventListener('touchmove', drawText);
+}
+
+// Toggle switch text
+const toggleSwitch = document.getElementById('toggleSwitch');
+toggleSwitch.addEventListener('change', function() {
+  switchText.textContent = this.checked ? 'On' : 'Off';
+});
+
+</script>
+</head>
+<body>
+  <ul class="nav">
+  <li class="nav-item">
+    <button class="btn btn-info" style="color:white" ><b>save</b></button>
+  </li>
+  <li class="nav-item">
+    <button class="btn btn-info" style="color:white" ><i class="bi bi-arrow-counterclockwise"></i><b>Undo</b></button>
+  </li>
+  <li class="nav-item">
+   <button class="btn btn-info" style="color:white" ><i class="bi bi-arrow-clockwise"></i><b>Redo</b></button>
+  </li>
+  <li class="nav-item">
+    <button class="btn btn-info" style="color:white" ><i class="bi bi-stars"></i><b> Clear</b></button>
+  </li>
+      <li>Draw
+      <label class="switch">
+  <input type="checkbox" id="toggleSwitch">
+  <span class="slider round" id="slider"></span>
+  <span id="onText" class="on">On</span>
+  <span id="offText" class="off">Off</span>
+</label>
+<canvas id="canvas" width="30" height="30"></canvas>Edit
+
+
+
+      </li>
+</ul>
+
+</body>
+</html>
